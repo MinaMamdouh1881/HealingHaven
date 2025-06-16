@@ -1,21 +1,31 @@
 'use server';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
+
 export default async function appointmentAction(formData: FormData) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    throw new Error('Missing RESEND_API_KEY environment variable.');
-  }
-  const resend = new Resend(apiKey);
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: formData.get('email') as string,
+    to: process.env.GMAIL_USER,
+    subject: 'New Appointment Request',
+    text:
+      `You have a new appointment request from ${formData.get('name')}.\n\n` +
+      `Phone: ${formData.get('phone')}\n` +
+      `Date: ${formData.get('date')}\n` +
+      `Time: ${formData.get('time')}\n`,
+  };
+
   try {
-    const res = await resend.emails.send({
-      from: formData.get('email') as string,
-      to: 'menamamdouh852456@gmail.com',
-      subject: 'Appointment Request',
-      text: 'You have received a new appointment request.',
-    });
-    console.log(res);
+    await transporter.sendMail(mailOptions);
+    return { success: true, message: 'Appointment request sent successfully.' };
   } catch (error) {
-    console.log('Error sending email:', error);
+    console.error('Error sending email:', error);
+    return { success: false, message: 'Failed to send appointment request.' };
   }
-  // console.log(formData);
 }
