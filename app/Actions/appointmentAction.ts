@@ -23,9 +23,8 @@ export default async function appointmentAction(formData: FormData) {
 
   try {
     await transporter.sendMail(mailOptions);
-    return { success: true, message: 'Appointment request sent successfully.' };
+    console.log('Appointment request sent successfully.');
   } catch (error) {
-    console.error('Error sending email:', error);
-    return { success: false, message: 'Failed to send appointment request.' };
+    console.log('Error sending email:', error);
   }
 }
