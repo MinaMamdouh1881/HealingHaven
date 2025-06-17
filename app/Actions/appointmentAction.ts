@@ -11,7 +11,7 @@ export default async function appointmentAction(formData: FormData) {
   });
 
   const mailOptions = {
-    from: formData.get('email') as string,
+    from: process.env.GMAIL_USER,
     to: process.env.GMAIL_USER,
     subject: 'New Appointment Request',
     text:
