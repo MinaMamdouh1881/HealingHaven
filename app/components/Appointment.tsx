@@ -6,8 +6,22 @@ import { FaChevronDown, FaRegClock } from 'react-icons/fa6';
 import { FiPhone } from 'react-icons/fi';
 import { BsPerson } from 'react-icons/bs';
 import appointmentAction from '../Actions/appointmentAction';
+import { useEffect, useState, useActionState } from 'react';
 
 function Appointment() {
+  const [minDate, setMinDate] = useState('');
+  const [state, formAction, isPending] = useActionState(
+    appointmentAction,
+    undefined
+  );
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      setMinDate(tomorrow.toISOString().split('T')[0]);
+    }
+  }, []);
+
   const showDatePic = () => {
     const dateInput = document.getElementById('picadate') as HTMLInputElement;
     if (dateInput) {
@@ -32,7 +46,7 @@ function Appointment() {
   };
   return (
     <div className='my-[20px] md:my-main px-4 md:px-main '>
-      <div className='bg-myprble p-5 rounded-2xl'>
+      <div className='bg-myprble p-5 rounded-2xl ' id='appointment'>
         <div className='flex flex-row gap-3 md:gap-5 items-center text-white font-bold text-center justify-center'>
           <CiWavePulse1 size={30} className='font-extrabold text-white' />
           <p>Get An Appointment</p>
@@ -42,13 +56,13 @@ function Appointment() {
           <br /> best healthcare
         </h2>
         <form
-          action={appointmentAction}
+          action={formAction}
           className='flex flex-col justify-center items-center mt-[50px] gap-5'
         >
           <div className='flex flex-col md:flex-row gap-5'>
             <div className='flex flex-row w-[250px] md:w-[250px] lg:w-[400px] justify-between bg-[#ab92fb] rounded-sm items-center text-white pr-3'>
               <select
-                name='depatrment'
+                name='department'
                 className='w-full h-full bg-[#ab92fb] font-semibold focus:outline-0 appearance-none p-3'
                 defaultValue=''
                 required
@@ -126,11 +140,7 @@ function Appointment() {
                 type='date'
                 className='w-full h-full font-semibold focus:outline-0 placeholder:text-white'
                 name='date'
-                min={(() => {
-                  const tomorrow = new Date();
-                  tomorrow.setDate(tomorrow.getDate() + 1);
-                  return tomorrow.toISOString().split('T')[0];
-                })()}
+                min={minDate}
               />
               <FaCalendarAlt size={20} />
             </div>
@@ -154,8 +164,15 @@ function Appointment() {
             className='py-4 px-6 bg-mainbg rounded-lg text-mainbtn font-semibold cursor-pointer'
             type='submit'
           >
-            Book An Appointment
+            {isPending ? 'Submitting...' : 'Book Appointment'}
           </button>
+          {state?.error ? (
+            <p className='text-lg text-red-600 font-semibold'>
+              {state.message}
+            </p>
+          ) : (
+            <p className='text-2xl text-green-800'>{state?.message}</p>
+          )}
         </form>
       </div>
     </div>

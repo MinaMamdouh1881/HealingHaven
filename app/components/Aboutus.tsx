@@ -4,7 +4,7 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 function Aboutus() {
   return (
-    <div className='mt-[20px] md:mt-main px-4 md:px-10 lg:px-main flex flex-col md:flex-row gap-10 md:gap-20 justify-between'>
+    <div className='mt-[20px] md:mt-main px-4 md:px-10 lg:px-main flex flex-col md:flex-row gap-10 md:gap-20 justify-between' id="aboutus">
       <div className='flex flex-col md:max-w-[500px] gap-5'>
         <span className='flex flex-row gap-3 md:gap-5 items-center text-myprble font-bold'>
           <CiWavePulse1 size={30} className='font-extrabold text-myprble' />

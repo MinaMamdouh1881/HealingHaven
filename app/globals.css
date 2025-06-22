@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme inline {
   --margin-main: 100px;
@@ -10,25 +10,25 @@
   --color-myprble: #a285ff;
   --color-prbleicon: #9b4dc7;
 }
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
   background: none;
 }
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (min-width: 1024px) {
+  .arrow:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    background-image: url('/arrow.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: translateX(40%);
   }
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
+html {
+  scroll-behavior: smooth;
+}

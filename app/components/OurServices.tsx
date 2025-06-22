@@ -36,7 +36,7 @@ function OurServices() {
     },
   ];
   return (
-    <div className='mt-[20px] md:mt-main bg-secbg px-4 md:px-main py-main'>
+    <div className='mt-[20px] md:mt-main bg-secbg px-4 md:px-main py-main' id='services'>
       <div className='flex flex-row gap-3 md:gap-5 items-center text-white font-bold text-center justify-center'>
         <CiWavePulse1 size={30} className='font-extrabold text-white' />
         <p>Our Services</p>

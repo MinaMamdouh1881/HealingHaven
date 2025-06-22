@@ -1,7 +1,10 @@
 'use server';
 import nodemailer from 'nodemailer';
 
-export default async function appointmentAction(formData: FormData) {
+export default async function appointmentAction(
+  prevState: unknown,
+  formData: FormData
+) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -25,13 +28,18 @@ export default async function appointmentAction(formData: FormData) {
         <tr><th>Date</th><td>${formData.get('date')}</td></tr>
         <tr><th>Time</th><td>${formData.get('time')}</td></tr>
       </table>
-    `
+    `,
   };
 
   try {
     await transporter.sendMail(mailOptions);
     console.log('Appointment request sent successfully.');
+    return { error: false, message: 'Appointment request sent successfully.' };
   } catch (error) {
     console.log('Error sending email:', error);
+    return {
+      error: true,
+      message: 'Error sending appointment request. Please try again later.',
+    };
   }
 }
